@@ -32,7 +32,10 @@ pipeline {
             post {
                 always {
                     // 归档生成的 JavaDoc
-                    archiveArtifacts artifacts: '**/target/apidocs/**/*', fingerprint: true
+                    archiveArtifacts artifacts: '**/target/site/**', fingerprint: true
+                    archiveArtifacts artifacts: '**/target/**/*.jar', fingerprint: true
+                    archiveArtifacts artifacts: '**/target/**/*.war', fingerprint: true
+
                 }
             }
         }
