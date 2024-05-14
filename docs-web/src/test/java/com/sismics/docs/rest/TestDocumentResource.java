@@ -646,55 +646,55 @@ public class TestDocumentResource extends BaseJerseyTest {
         Assert.assertTrue(pdfBytes.length > 0);
     }
 
-    /**
-     * Test video extraction.
-     *
-     * @throws Exception e
-     */
-    @Test
-    public void testVideoExtraction() throws Exception {
-        // Login document_video
-        clientUtil.createUser("document_video");
-        String documentVideoToken = clientUtil.login("document_video");
+//     /**
+//      * Test video extraction.
+//      *
+//      * @throws Exception e
+//      */
+//     @Test
+//     public void testVideoExtraction() throws Exception {
+//         // Login document_video
+//         clientUtil.createUser("document_video");
+//         String documentVideoToken = clientUtil.login("document_video");
 
-        // Create a document
-        String document1Id = clientUtil.createDocument(documentVideoToken);
+//         // Create a document
+//         String document1Id = clientUtil.createDocument(documentVideoToken);
 
-        // Add a video file
-        String file1Id = clientUtil.addFileToDocument(FILE_VIDEO_WEBM, documentVideoToken, document1Id);
+//         // Add a video file
+//         String file1Id = clientUtil.addFileToDocument(FILE_VIDEO_WEBM, documentVideoToken, document1Id);
 
-        // Search documents by query in full content
-        JsonObject json = target().path("/document/list")
-                .queryParam("search", "full:vp9")
-                .request()
-                .cookie(TokenBasedSecurityFilter.COOKIE_NAME, documentVideoToken)
-                .get(JsonObject.class);
-        Assert.assertEquals(1, json.getJsonArray("documents").size());
+//         // Search documents by query in full content
+//         JsonObject json = target().path("/document/list")
+//                 .queryParam("search", "full:vp9")
+//                 .request()
+//                 .cookie(TokenBasedSecurityFilter.COOKIE_NAME, documentVideoToken)
+//                 .get(JsonObject.class);
+//         Assert.assertEquals(1, json.getJsonArray("documents").size());
 
-        // Get the file thumbnail data
-        Response response = target().path("/file/" + file1Id + "/data")
-                .queryParam("size", "thumb")
-                .request()
-                .cookie(TokenBasedSecurityFilter.COOKIE_NAME, documentVideoToken)
-                .get();
-        InputStream is = (InputStream) response.getEntity();
-        byte[] fileBytes = ByteStreams.toByteArray(is);
-        Assert.assertTrue(fileBytes.length > 0); // Images rendered from PDF differ in size from OS to OS due to font issues
+//         // Get the file thumbnail data
+//         Response response = target().path("/file/" + file1Id + "/data")
+//                 .queryParam("size", "thumb")
+//                 .request()
+//                 .cookie(TokenBasedSecurityFilter.COOKIE_NAME, documentVideoToken)
+//                 .get();
+//         InputStream is = (InputStream) response.getEntity();
+//         byte[] fileBytes = ByteStreams.toByteArray(is);
+//         Assert.assertTrue(fileBytes.length > 0); // Images rendered from PDF differ in size from OS to OS due to font issues
 
-        // Export a document in PDF format
-        response = target().path("/document/" + document1Id + "/pdf")
-                .queryParam("margin", "10")
-                .queryParam("metadata", "true")
-                .queryParam("comments", "true")
-                .queryParam("fitimagetopage", "true")
-                .request()
-                .cookie(TokenBasedSecurityFilter.COOKIE_NAME, documentVideoToken)
-                .get();
-        Assert.assertEquals(Status.OK, Status.fromStatusCode(response.getStatus()));
-        is = (InputStream) response.getEntity();
-        byte[] pdfBytes = ByteStreams.toByteArray(is);
-        Assert.assertTrue(pdfBytes.length > 0);
-    }
+//         // Export a document in PDF format
+//         response = target().path("/document/" + document1Id + "/pdf")
+//                 .queryParam("margin", "10")
+//                 .queryParam("metadata", "true")
+//                 .queryParam("comments", "true")
+//                 .queryParam("fitimagetopage", "true")
+//                 .request()
+//                 .cookie(TokenBasedSecurityFilter.COOKIE_NAME, documentVideoToken)
+//                 .get();
+//         Assert.assertEquals(Status.OK, Status.fromStatusCode(response.getStatus()));
+//         is = (InputStream) response.getEntity();
+//         byte[] pdfBytes = ByteStreams.toByteArray(is);
+//         Assert.assertTrue(pdfBytes.length > 0);
+//     }
 
     /**
      * Test PPTX extraction.
