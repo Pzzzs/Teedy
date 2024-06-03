@@ -7,50 +7,51 @@ pipeline {
 
     stages {
         
-        // stage('Install Dependencies') {
-        //     steps {
-        //         dir('FrontEnd') {
+        stage('FrontEnd Dependencies') {
+            steps {
+                dir('FrontEnd') {
+                    sh 'npm install -g @vue/cli'
+                    
 
-        //             // 全局安装 Vue CLI
-        //             sh 'npm install -g @vue/cli'
+                }
+            }
+        }
 
-        //             // 使用 npm 安装项目依赖
-        //             sh 'npm install'
+        stage('Build FrontEnd') {
+            steps {
+                dir('FrontEnd') {
 
-        //         }
-        //     }
-        // }
-
-        // stage('Build') {
-        //     steps {
-        //         dir('FrontEnd') {
-
-        //             // 运行构建命令
-        //             sh 'npm run build'
-        //         }
-        //     }
-        // }
-
-        // stage('Archive Artifacts') {
-        //     steps {
-        //         dir('FrontEnd') {
-        //             // 存档构建产物以供后续步骤使用
-        //             archiveArtifacts artifacts: 'dist/**', allowEmptyArchive: true
-        //         }
-        //     }
-        // }
+                    sh 'npm install'
+                }
+            }
+        }
 
         stage('Archive Artifacts') {
             steps {
+                dir('FrontEnd') {
+
+                    sh 'npm install'
+                }
+            }
+        }
+
+        stage('BackEnd Dependencies') {
+            steps {
                 dir('BackEnd') {
-                    // 存档构建产物以供后续步骤使用
+
                     sh 'pip install --no-cache-dir -r requirements.txt'
                 }
             }
         }
 
-        
-    }
+        stage('Build Docker') {
+            steps {
+                dir('FrontEnd') {
 
-    
+                    sh 'npm install'
+                }
+            }
+        } 
+    }
 }
+
