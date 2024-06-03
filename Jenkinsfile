@@ -18,7 +18,7 @@ pipeline {
                     sh 'npm install'
 
                     // 运行构建命令
-                    sh 'npm run serve'
+                    sh 'npm run build'
                 }
             }
         }
