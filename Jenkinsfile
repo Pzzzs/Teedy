@@ -11,6 +11,8 @@ pipeline {
         stage('Navigate to Frontend Directory') {
             steps {
                 dir('FrontEnd') {
+
+                    sh 'npm config set registry https://registry.npm.taobao.org'
                     // 全局安装 Vue CLI
                     sh 'npm install -g @vue/cli'
 
@@ -35,18 +37,5 @@ pipeline {
         
     }
 
-    post {
-        always {
-            // 清理工作区
-            cleanWs()
-        }
-        success {
-            // 构建成功后执行的操作
-            echo 'Build succeeded!'
-        }
-        failure {
-            // 构建失败后执行的操作
-            echo 'Build failed!'
-        }
-    }
+    
 }
