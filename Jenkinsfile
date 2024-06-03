@@ -11,7 +11,8 @@ pipeline {
         stage('Navigate to Frontend Directory') {
             steps {
                 dir('FrontEnd') {
-                    
+                    // 全局安装 Vue CLI
+                    sh 'npm install -g @vue/cli'
 
                     // 使用 npm 安装项目依赖
                     sh 'npm install'
