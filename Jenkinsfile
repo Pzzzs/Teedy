@@ -2,42 +2,53 @@ pipeline {
     agent any
 
     stages {
-        
+
+        stage('init') {
+            echo 'Build'
+        }
+
+            dir('FrontEnd') {
+                steps {
+                    // 全局安装 Vue CLI
+                    sh 'npm install -g @vue/cli'
+                }
+            }
+        }
+        stage('Install Vue CLI') {
+            dir('FrontEnd') {
+                steps {
+                    // 全局安装 Vue CLI
+                    sh 'npm install -g @vue/cli'
+                }
+            }
+        }
+
+        stage('Install Dependencies') {
+            dir('FrontEnd') {
+                steps {
+                    // 使用npm安装项目依赖
+                    sh 'npm install'
+                }
+            }
+        }
+
         stage('Build') {
-            steps {
-                // 使用 Maven 编译项目
-                sh 'mvn -B -DskipTests clean package -U'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                // 运行测试并生成 Surefire 报告
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    // 收集 Surefire 报告
-                    junit '**/target/surefire-reports/*.xml'
+            dir('FrontEnd') {
+                steps {
+                    // 运行构建命令
+                    sh 'npm run build'
                 }
             }
         }
 
-        stage('Generate JavaDoc') {
-            steps {
-                // 生成 JavaDoc
-                sh 'mvn clean -DskipTests install'
-                sh 'mvn javadoc:jar -U'
-            }
-            post {
-                always {
-                    // 归档生成的 JavaDoc
-                    archiveArtifacts artifacts: '**/target/site/**', fingerprint: true
-                    archiveArtifacts artifacts: '**/target/**/*.jar', fingerprint: true
-                    archiveArtifacts artifacts: '**/target/**/*.war', fingerprint: true
-
+        stage('Archive Artifacts') {
+            dir('FrontEnd') {
+                steps {
+                    // 存档构建产物以供后续步骤使用
+                    archiveArtifacts artifacts: 'dist/**', allowEmptyArchive: true
                 }
             }
         }
+         
     }
 }
