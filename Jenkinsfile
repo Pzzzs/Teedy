@@ -3,7 +3,9 @@ pipeline {
 
     stages {
 
-
+        stage('init') {
+            echo 'Build'
+        }
             
         
         stage('Install Vue CLI') {
