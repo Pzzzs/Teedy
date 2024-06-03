@@ -12,7 +12,6 @@ pipeline {
             steps {
                 dir('FrontEnd') {
 
-                    sh 'npm config set registry https://registry.npm.taobao.org'
                     // 全局安装 Vue CLI
                     sh 'npm install -g @vue/cli'
 
